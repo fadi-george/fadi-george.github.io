@@ -1,0 +1,111 @@
+{
+  "root": true,
+
+  "parser": "@typescript-eslint/parser",
+
+  "plugins": ["@typescript-eslint", "import", "react"],
+
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended"
+  ],
+
+  "env": {
+    "browser": true,
+    "node": true
+  },
+
+  "rules": {
+    // Allow use of console.error.
+    "no-console": ["warn", { "allow": ["error"] }],
+
+    // Lets typescript checks for it instead.
+    "no-unused-vars": "off",
+    // Allows of ts-ignores but it should not be overused.
+    "@typescript-eslint/ban-ts-comment": "off",
+
+    // Sets custom ordering for interfaces and classes.
+    "@typescript-eslint/member-ordering": [
+      "error",
+      {
+        "default": {
+          "order": "alphabetically-case-insensitive"
+        },
+        "classes": ["field", "constructor", "method"]
+      }
+    ],
+
+    // Checks if a variable is declared but not used.
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "ignoreRestSiblings": true }
+    ],
+
+    // https://github.com/import-js/eslint-plugin-import
+    // Forces custom import order via groups. Array is used to group imports together. Imports will also be separated by new lines for readability.
+    // Built-in are node imports such as fs, path, etc.  External are imports from node modules e.g. react, @mui, etc.
+    // Internal are non-relative imports from the project e.g. components, pages, etc.
+    // Parent, index, and sibling are relative imports e.g. "../Parent", ",", and "./Sibling".
+    // Type is for importing types from a module e.g. import type { SomeType } from "tools/types".
+    // We use custom path groups e.g. actions (grouped under internal) to separate and readability for the import.
+    "import/order": [
+      "error",
+      {
+        "alphabetize": { "caseInsensitive": true, "order": "asc" },
+        "groups": [
+          ["builtin", "external"],
+          "internal",
+          ["parent", "index", "sibling"],
+          "type"
+        ]
+      }
+    ],
+
+    // Avoids needing to specific display names for components.
+    "react/display-name": "off",
+
+    // Forces component props to be sorted, rest props are ignored.
+    "react/jsx-sort-props": [
+      "error",
+      {
+        "ignoreCase": true
+      }
+    ],
+
+    // Used to sort members inside an import. Will ignore "type" keyword e.g. import { type A, b } from "components".
+    "sort-imports": [
+      "error",
+      {
+        "allowSeparatedGroups": true,
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false
+      }
+    ],
+
+    // Allow use of various characters like ">", """, "'", "}", etc.
+    "react/no-unescaped-entities": "off",
+
+    // We use prop interface to specify props.
+    "react/prop-types": "off",
+
+    // We use jsx transform (no need for import React).
+    "react/react-in-jsx-scope": "off"
+  },
+
+  "settings": {
+    // Lets import plugin know about non-relative imports
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}
