@@ -1,6 +1,4 @@
 {
-  "root": true,
-
   "parser": "@typescript-eslint/parser",
 
   "plugins": ["@typescript-eslint", "import", "react"],
@@ -25,6 +23,7 @@
 
     // Lets typescript checks for it instead.
     "no-unused-vars": "off",
+    
     // Allows of ts-ignores but it should not be overused.
     "@typescript-eslint/ban-ts-comment": "off",
 
