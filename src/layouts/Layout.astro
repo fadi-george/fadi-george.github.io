@@ -1,0 +1,136 @@
+---
+import { ViewTransitions } from "astro:transitions";
+
+import NavBar from "../components/NavBar.astro";
+
+// fonts
+import "@fontsource/poppins/300.css";
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="Astro description" name="description" />
+    <meta content="width=device-width" name="viewport" />
+    <link href="favicon.ico?v=2" rel="icon" type="image/x-icon" />
+    <meta content="max-age=31536000" http-equiv="cache-control" />
+    <meta content={Astro.generator} name="generator" />
+    <title>{title}</title>
+    <script is:inline>
+      const setDarkMode = () => {
+        const theme = localStorage.getItem("theme");
+
+        if (theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        }
+      };
+
+      setDarkMode(); // Runs on initial navigation
+      document.addEventListener("astro:after-swap", setDarkMode); // Runs on view transitions navigation
+    </script>
+    <ViewTransitions />
+  </head>
+  <body class="pile h-full text-slate-600 selection:bg-[#ffce47] dark:text-white dark:selection:bg-[#a418dd]">
+    <NavBar />
+    <div class="pile h-full w-full">
+      <div class="background relative bgi-[--bg-light] dark:bgi-[--bg-dark]" id="background"></div>
+      <div class="relative min-h-dvh w-dvw pb-[24px] pt-[--navbar-height]">
+        <slot />
+      </div>
+    </div>
+    <style is:global>
+      @tailwind utilities;
+
+      :root {
+        --navbar-height: 75px;
+        --container-pt: 32px;
+        --bg-light: url("/background/light.webp");
+        --bg-dark: url("/background/dark.webp");
+        --bg-timing: linear;
+        --bg-duration: 1.5s;
+      }
+
+      dialog {
+        max-width: unset;
+      }
+
+      @supports (transition-behavior: allow-discrete) and (transition-property: background-image) {
+        #background {
+          transition-duration: var(--bg-duration);
+          transition-behavior: allow-discrete;
+          transition-property: background-image;
+          transition-timing-function: var(--bg-timing);
+        }
+      }
+      @supports (not (position-anchor: --home)) {
+        #tab-line {
+          display: none;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        :root {
+          --container-pt: 112px;
+        }
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        transition-property: color;
+        transition-duration: 1s;
+        background-color: white;
+      }
+
+      @layer utilities {
+        .background {
+          @apply bg-cover bg-left-top bg-no-repeat;
+        }
+        .pile {
+          display: grid;
+
+          & > * {
+            grid-area: 1/1;
+          }
+        }
+
+        /* Reference: Daisy UI */
+        .mask {
+          mask-position: center;
+          mask-repeat: no-repeat;
+          mask-size: contain;
+        }
+        .mask-squircle {
+          mask-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAwJyBoZWlnaHQ9JzIwMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cGF0aCBkPSdNMTAwIDBDMjAgMCAwIDIwIDAgMTAwczIwIDEwMCAxMDAgMTAwIDEwMC0yMCAxMDAtMTAwUzE4MCAwIDEwMCAwWicvPjwvc3ZnPg==);
+        }
+
+        .grow-hover {
+          @apply scale-100 transition-transform hover:scale-110;
+        }
+        .hide-xs {
+          @apply hidden sm:block;
+        }
+        .app-container {
+          @apply me-auto ms-auto h-full justify-center px-[24px] pt-[--container-pt];
+        }
+        .two-columns {
+          @apply grid grid-cols-[1fr,1fr];
+        }
+      }
+    </style>
+  </body>
+</html>

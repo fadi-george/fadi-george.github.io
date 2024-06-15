@@ -1,0 +1,80 @@
+---
+import { Image } from "astro:assets";
+
+import Layout from "../layouts/Layout.astro";
+import { MAIL_TO } from "../data/contact";
+---
+
+<Layout title="About">
+  <main class="app-container max-w-[1200px] vtn-[appPage]">
+    <div class="animate-[fadeIn_1s_ease_forwards_1s] opacity-0">
+      <div class="flex flex-col justify-center gap-9 md:flex-row">
+        <!-- Profile img -->
+        <div
+          class="pile relative -top-[--img-dist] order-1 mt-1 h-[--img-height] justify-center overflow-hidden rounded-xl md:order-[0]
+            md:justify-start"
+        >
+          <div
+            class="mask relative top-[--img-dist] z-0 h-[calc(var(--img-height)-var(--img-dist))] w-[300px] rounded-xl bg-[#ffbf00fc]
+              transition-colors duration-[--bg-duration] dark:bg-[#9242ff]"
+            style={{
+              boxShadow: "inset 0 2px 17px 1px rgb(0 0 0 / 0.10)",
+              clipPath: "var(--img-clip)",
+            }}
+          >
+          </div>
+          <Image
+            alt="profile"
+            class="relative z-[1] flex shrink-0 animate-[slide_0.75s_ease_forwards_1s] rounded-xl"
+            height="450"
+            loading="eager"
+            src="/profile2.webp"
+            width="300"
+          />
+        </div>
+
+        <!-- Summary -->
+        <div class="max-w-[600px] flex-1 animate-[fadeIn_0.75s_ease_forwards_1.75s] text-2xl opacity-0">
+          <p>
+            I'm a <b>Senior Frontend Developer</b> with 8+ years in developing SaaS web applications. I enjoy working in
+            startup environments where I can help build products from the ground up and steer/lead the frontend development.<br
+            /><br />
+            But I also have some background in <b>graphic design</b> where I created logos, business cards, posters, icons,
+            and much more. I value nice and clean design when it comes to user interfaces.
+            <br /><br />
+            I do my best to stay <b>up-to-date</b> with the newest frontend frameworks and technologies. I follow various
+            content creators and dev blogs and make sure to constantly polish my skillsets.
+            <br /><br />
+            Please feel free to <a
+              class="font-semibold underline md:pointer-events-none md:contents md:font-normal md:no-underline"
+              href={MAIL_TO}>reach out</a
+            > to me if you are interested in working together!
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    --img-height: 450px;
+    --img-dist: 50px;
+    --img-clip: polygon(0 100%, 0 0, 76% 0, 83% 7%, 90% 0, 100% 0, 100% 100%);
+  }
+
+  @keyframes slide {
+    from {
+      transform: translateY(var(--img-dist));
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @media screen(md) {
+    main {
+      --img-clip: polygon(100% 100%, 0 100%, 0 0, 100% 0, 100% 20%, 93% 25%, 100% 30%);
+    }
+  }
+</style>

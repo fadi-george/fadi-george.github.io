@@ -1,0 +1,77 @@
+---
+import { Image } from "astro:assets";
+
+import Layout from "../layouts/Layout.astro";
+import { Tabs } from "../components/Tabs.tsx";
+
+const pathname = Astro.url.pathname.slice(1);
+---
+
+<Layout title="Fadi George">
+  <main class="h-full">
+    <div class="flex h-full items-center justify-center">
+      <div class="mt-[-25%] sm:mt-0">
+        <div class="flex flex-col gap-[24px]">
+          <div class="flex min-h-[128px] flex-col items-center gap-4 sm:flex-row">
+            <!-- Profile Pic -->
+            <div class="pile peer items-center">
+              <Image
+                alt="Profile pic"
+                class={"mask mask-squircle scale-0 animate-[grow_0.8s_ease_forwards_1s] mix-blend-luminosity object-cover object-[0px_30px]"}
+                height="128"
+                id="profile"
+                loading="eager"
+                src="/profile.webp"
+                width="128"
+              />
+            </div>
+
+            <!-- Info -->
+            <div
+              class="flex flex-col [&_#wave]:animate-[rotate-back_1.5s_ease_forwards] peer-hover:[&_#wave]:animate-[wiggle_1.5s_ease]"
+            >
+              <span class="animate-[fadeIn_1s_ease_forwards_2s] text-[30px] opacity-0 sm:text-[40px]">
+                <span class="inline-block" id="wave"> 👋 </span>{" "}
+                Hi, I'm <b>Fadi George.</b>
+              </span>
+              <span
+                class="animate-[fadeIn_1s_ease_2s_forwards] text-center text-[16px] font-light opacity-0 sm:text-start sm:text-[24px]"
+              >
+                Front-end Developer & CSS Wizard 🧙‍♂️
+              </span>
+            </div>
+          </div>
+
+          <div class="mt-4 animate-[fadeIn_1s_ease_forwards_1.5s] opacity-0">
+            <Tabs client:only="react" pathname={pathname} />
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  @keyframes rotate-back {
+    0% {
+      rotate: 0;
+    }
+    100% {
+      rotate: 0deg;
+    }
+  }
+  #wave {
+    @starting-style {
+      rotate: 0;
+    }
+  }
+
+  /**
+  * Target Safari
+  */
+  @supports (font: -apple-system-body) and (-webkit-appearance: none) {
+    #profile {
+      mix-blend-mode: normal;
+    }
+  }
+</style>

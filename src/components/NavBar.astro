@@ -1,0 +1,79 @@
+---
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { IoIosMail } from "react-icons/io";
+
+import Logo from "../../public/logos/fg.svg?raw";
+import { MAIL_TO } from "../data/contact.ts";
+
+import { Tabs } from "./Tabs.tsx";
+import { ThemeToggle } from "./ThemeToggle.tsx";
+
+interface Props {}
+
+const pathname = Astro.url.pathname.slice(1);
+const isHome = pathname === "";
+
+const LINKS = [
+  {
+    href: MAIL_TO,
+    icon: IoIosMail,
+    size: "1.5rem",
+    title: "Send Email",
+  },
+  {
+    href: "https://github.com/fadi-george",
+    icon: FaGithub,
+    title: "GitHub",
+  },
+  {
+    href: "https://www.linkedin.com/in/fadisgeorge/",
+    icon: FaLinkedin,
+    title: "LinkedIn",
+  },
+];
+---
+
+<div class="absolute left-0 right-0 top-0 z-10 grid min-h-[--navbar-height] grid-cols-[1fr,auto,1fr] items-center p-5">
+  <div class="flex justify-start">
+    {
+      !isHome && (
+        <a data-astro-prefetch class="grow-hover h-[20px] w-[20px] drop-shadow-lg" href="/" title="Home">
+          <Fragment set:html={Logo} />
+        </a>
+      )
+    }
+  </div>
+
+  <div>{!isHome && <Tabs client:only="react" pathname={pathname} />}</div>
+  <div class="flex items-center justify-end gap-4">
+    {
+      LINKS.map(({ href, icon, size = "1.25rem", title }) => {
+        const Icon = icon;
+        return (
+          <a class="grow-hover hide-xs drop-shadow-lg" href={href} target="_blank">
+            <Icon size={size} title={title} />
+          </a>
+        );
+      })
+    }
+    <span class="hide-xs">|</span>
+    <div class="flex min-h-[20px] min-w-[24px]">
+      <ThemeToggle client:only="react" />
+    </div>
+  </div>
+
+  <!-- Tab Active/Hover Line -->
+  <div
+    class={`fixed left-[anchor(center)] top-[anchor(bottom)] h-[14px] w-[75px] translate-x-[-50%] bg-[url('/zigzag.svg')]
+    transition-all duration-500 vtn-[tabLine] ${isHome ? "opacity-0" : "opacity-100"} invisible z-[1]`}
+    id="tab-line"
+    style={isHome
+      ? {
+          positionAnchor: `--home`,
+        }
+      : {
+          positionAnchor: `--${pathname}-tab`,
+        }}
+  >
+  </div>
+</div>

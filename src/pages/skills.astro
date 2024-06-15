@@ -1,0 +1,88 @@
+---
+import { Image } from "astro:assets";
+
+import Layout from "../layouts/Layout.astro";
+import { skillsSections } from "../data/skills";
+---
+
+<Layout title="Work">
+  <main class="app-container max-w-[1280px] vtn-[appPage]">
+    <div class="relative grid grid-cols-1 justify-center gap-[--card-gap] xl:grid-cols-3">
+      {
+        skillsSections.map((section, i) => {
+          return (
+            <div
+              class={`relative left-0 flex max-w-full animate-none flex-col rounded-xl border-none bg-white/50 p-5 shadow-lg backdrop-blur
+                transition-[background-color] duration-[1500ms] dark:bg-slate-900/40 xl:max-w-[400px]
+                xl:animate-[move-left_1s_ease_forwards_0.5s] xl:shadow-2xl`}
+              id={`card-${i}`}
+            >
+              <div class="flex-1 pb-3">
+                {/* Title */}
+                <div>
+                  <div class="pile justify-center drop-shadow-xl">
+                    <Image alt={section.title} class="m-auto" height={150} src={section.icon.src} width={150} />
+                  </div>
+                  <h1 class="pt-5 text-center text-2xl font-semibold">{section.title}</h1>
+                </div>
+
+                {/* Description */}
+                <p class="flex items-center justify-center whitespace-pre-line text-start text-lg">
+                  {section.description}
+                </p>
+              </div>
+
+              {/* Toolbox */}
+              <hr class="my-4 opacity-100 transition-opacity duration-[1500] dark:opacity-30" />
+              <div class="flex flex-wrap gap-[4px_8px]">
+                {section.items.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div
+                      class={
+                        "text-md flex items-center justify-center gap-2 whitespace-nowrap rounded-[20px] px-[8px] py-[4px] font-normal"
+                      }
+                    >
+                      <Icon size={24} />
+                      <span>{item.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    --card-gap: 1.5rem;
+  }
+
+  #card-0 {
+    --move-left: calc(100% + var(--card-gap));
+    @apply z-[1] opacity-100 xl:left-[--move-left] xl:opacity-0 [&_img]:relative [&_img]:top-[8px] [&_img]:scale-[1.05];
+  }
+  #card-1 {
+    --move-left: 0%;
+    @apply z-[2] opacity-100 xl:left-[--move-left] xl:opacity-0 [&_.card-circle]:bg-[#d2f1ff] dark:[&_.card-circle]:bg-[#005ea9] [&_img]:p-[0px];
+  }
+  #card-2 {
+    --move-left: calc(-100% + var(--card-gap));
+    @apply z-[3] xl:left-[--move-left] [&_.card-circle]:bg-[#ffedb6] dark:[&_.card-circle]:bg-[#673AB7] [&_img]:p-[18px];
+  }
+
+  @keyframes move-left {
+    0% {
+      left: var(--move-left);
+      opacity: 0.5;
+    }
+    100% {
+      left: 0;
+      opacity: 1;
+    }
+  }
+</style>

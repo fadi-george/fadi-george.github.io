@@ -1,0 +1,214 @@
+---
+import { Image } from "astro:assets";
+
+import Layout from "../layouts/Layout.astro";
+import { workHistory } from "../data/work";
+---
+
+<Layout title="Work">
+  <main class="app-container max-w-[--container-w] vtn-[appPage]">
+    <div
+      class="relative h-[calc(100vh_-_var(--container-pt)_-_var(--navbar-height))] animate-[scroll-fade_1s_linear] overflow-auto
+        pb-[120px] pt-[--title-offset] atime-[--workHistory] stime-[--workHistory] vtn-[none]"
+      id="work-history-container"
+    >
+      <!-- Title background that matches site background -->
+      <div
+        class="background sticky -top-[calc(var(--title-offset))] left-[--title-height] z-[1] -mt-[--title-height] h-[--bar-height]
+          w-full bgi-[--bg-light] vtn-[none] dark:bgi-[--bg-dark] lg:w-[640px]"
+        id="title-bg"
+        style={{
+          backgroundAttachment: "fixed",
+          transitionProperty: "background",
+          transitionDuration: "var(--bg-duration)",
+          transitionTimingFunction: "var(--bg-timing)",
+        }}
+      >
+      </div>
+
+      <!-- Image Expand Modal -->
+      <div
+        class="ml-0 mr-0 mt-[160px] grid w-full max-w-full translate-x-0 bg-transparent p-0 pt-0 backdrop:hidden lg:ml-[50%] lg:mt-auto
+          lg:max-w-[min(calc(100%_-_266px),calc(1200px_-_240px))] lg:translate-x-[calc(-50%_-_130px)] lg:pt-[150px] [&_img]:h-auto
+          [&_img]:w-auto"
+        id="image-modal"
+        popover="manual"
+        transition:persist="true"
+      >
+      </div>
+
+      <div class="grid gap-[96px]" id="work-history">
+        <!-- Work History -->
+        {
+          workHistory.map((history) => {
+            return (
+              <div class="work-info grid grid-cols-1 gap-4 pl-0 lg:grid-cols-[640px_auto] lg:pl-[68px]">
+                {/* Role & Action */}
+                <div>
+                  <div class="work-title-container sticky top-0 z-[2] flex justify-center sm:block sm:justify-normal">
+                    <h1 class="flex items-center gap-3 text-3xl font-bold">
+                      <Image
+                        alt="company logo"
+                        class="ml-0 inline-block h-[var(--title-height)] w-[--title-height] drop-shadow-sm lg:ml-[-68px]"
+                        height="56"
+                        src={history.logo}
+                        width="56"
+                      />
+                      {history.company}
+                    </h1>
+                  </div>
+                  <div class="relative z-[0]">
+                    <p class="pt-2 text-center text-2xl font-semibold sm:text-start">{history.role}</p>
+                    <p class="pt-2 text-center text-xl font-semibold sm:text-start">
+                      {history.start} - {history.end}
+                    </p>
+                    <ul class="grid gap-4 pt-2 text-lg">
+                      {history.details.map((detail) => (
+                        <li set:html={detail} />
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Work Images */}
+                <div
+                  class="work-images flex w-full gap-4 overflow-auto stime-[--images] lg:right-3 lg:grid lg:grid-cols-1 lg:place-items-end
+                    lg:overflow-visible lg:stime-[unset]"
+                >
+                  {history.images.map((src, i) => {
+                    return (
+                      <fg-img
+                        class="min-h-[150px] min-w-[231.84px] cursor-pointer"
+                        id={`${history.company}-${i}`}
+                        tabindex="0"
+                      >
+                        <Image
+                          alt="app_screenshot"
+                          class={`h-[150px] animate-[fadeIn_0.25s_linear_forwards,grow_0.25s_linear_forwards] rounded-lg transition-all
+                            arange-[entry_entry_55%] atime-[view(x)] vtn-[none] lg:arange-[entry_0px] lg:atime-[view()]`}
+                          height="150"
+                          src={src}
+                          width="231.84"
+                        />
+                      </fg-img>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { startTransition } from "../helpers/transition";
+  let activeImgId = "";
+  let modal: HTMLElement | null = document.getElementById("image-modal");
+
+  const dimissOldImg = async () => {
+    if (!activeImgId) return;
+    const modalImg = modal?.querySelector("img");
+    await startTransition(
+      () => {
+        const fgImg = document.getElementById(activeImgId);
+
+        if (!modalImg || !fgImg) return;
+        modal?.hidePopover();
+        fgImg.appendChild(modalImg);
+      },
+      () => {
+        if (modalImg) modalImg.style.viewTransitionName = "none";
+      },
+    );
+  };
+
+  class ExpandImage extends HTMLElement {
+    constructor() {
+      super();
+
+      this.addEventListener("keydown", (e) => {
+        if (e.key === " ") {
+          e.preventDefault();
+          this.click();
+        }
+      });
+      this.addEventListener("click", async () => {
+        const img = this.querySelector("img");
+        if (activeImgId) await dimissOldImg();
+        activeImgId = this.getAttribute("id") || "";
+
+        if (!img || !modal) return;
+        img.style.viewTransitionName = activeImgId;
+
+        startTransition(() => {
+          modal?.appendChild(img);
+          modal?.showPopover();
+        });
+      });
+    }
+  }
+  customElements.define("fg-img", ExpandImage);
+
+  document.addEventListener("astro:page-load", () => {
+    modal = document.getElementById("image-modal") as HTMLDialogElement | null;
+    if (modal) {
+      modal.addEventListener("click", () => {
+        dimissOldImg();
+      });
+    }
+  });
+</script>
+
+<style>
+  main {
+    --modal-offset: 160px;
+    --container-w: 1200px;
+    --bar-padding: 8px;
+    --gradient-offset: 48px;
+    --title-height: 48px;
+    --title-offset: 28px;
+    --bar-height: calc(var(--title-height) + var(--title-offset) + var(--bar-padding));
+  }
+
+  @media (min-width: 640px) {
+    main {
+      --bar-padding: 0px;
+      --gradient-offset: 48px;
+      --title-height: 56px;
+      --title-offset: 28px;
+      margin-top: -32px;
+    }
+  }
+
+  @keyframes scroll-fade {
+    0% {
+      mask-image: linear-gradient(to bottom, black calc(100% - var(--gradient-offset)), transparent 100%);
+    }
+    1%,
+    99% {
+      mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black, black 95%, transparent 100%);
+    }
+    100% {
+      mask-image: linear-gradient(to top, black calc(100% - var(--gradient-offset)), transparent 100%);
+    }
+  }
+
+  b {
+    font-weight: 600;
+  }
+
+  /**
+  * Background attachment fixed causes slow scrolling on Safari
+  */
+  @supports (font: -apple-system-body) and (-webkit-appearance: none) {
+    #title-bg {
+      display: none;
+    }
+    .work-title-container {
+      position: relative;
+    }
+  }
+</style>
