@@ -12,8 +12,8 @@ import { skillsSections } from "../data/skills";
         skillsSections.map((section, i) => {
           return (
             <div
-              class={`relative left-0 flex max-w-full animate-none flex-col rounded-xl border-none bg-white/50 p-5 shadow-lg backdrop-blur
-                transition-[background-color] duration-[1500ms] dark:bg-slate-900/40 xl:max-w-[400px]
+              class={`relative left-0 flex max-w-full animate-none flex-col rounded-xl border-none bg-white/50 p-4 shadow-lg backdrop-blur
+                transition-[background-color] duration-[1500ms] dark:bg-slate-900/40 sm:p-5 xl:max-w-[400px]
                 xl:animate-[move-left_1s_ease_forwards_0.5s] xl:shadow-2xl`}
               id={`card-${i}`}
             >
@@ -21,29 +21,34 @@ import { skillsSections } from "../data/skills";
                 {/* Title */}
                 <div>
                   <div class="pile justify-center drop-shadow-xl">
-                    <Image alt={section.title} class="m-auto" height={150} src={section.icon.src} width={150} />
+                    <Image
+                      alt={section.title}
+                      class="m-auto size-[128px] sm:size-[150px]"
+                      height={150}
+                      src={section.icon.src}
+                      width={150}
+                    />
                   </div>
-                  <h1 class="pt-5 text-center text-2xl font-semibold">{section.title}</h1>
+                  <h1 class="pt-5 text-center text-xl font-semibold sm:text-2xl">{section.title}</h1>
                 </div>
 
                 {/* Description */}
-                <p class="flex items-center justify-center whitespace-pre-line text-start text-lg">
+                <p class="flex items-center justify-center whitespace-pre-line text-start text-base sm:text-lg">
                   {section.description}
                 </p>
               </div>
 
               {/* Toolbox */}
               <hr class="my-4 opacity-100 transition-opacity duration-[1500] dark:opacity-30" />
-              <div class="flex flex-wrap gap-[4px_8px]">
+              <div class="flex flex-wrap gap-[2px_0px] sm:gap-[4px_8px]">
                 {section.items.map((item) => {
                   const Icon = item.icon;
                   return (
                     <div
-                      class={
-                        "text-md flex items-center justify-center gap-2 whitespace-nowrap rounded-[20px] px-[8px] py-[4px] font-normal"
-                      }
+                      class={`flex items-center justify-center gap-2 whitespace-nowrap rounded-[20px] px-[8px] py-[4px] text-xs font-normal
+                        sm:text-base`}
                     >
-                      <Icon size={24} />
+                      <Icon className="size-[20px] sm:size-[24px]" />
                       <span>{item.label}</span>
                     </div>
                   );
