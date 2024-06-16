@@ -23,9 +23,13 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta content="Astro description" name="description" />
     <meta content="width=device-width" name="viewport" />
-    <link href="favicon.ico?v=2" rel="icon" type="image/x-icon" />
+    <meta content="var(--mobile-theme)" name="theme-color" />
     <meta content={Astro.generator} name="generator" />
+
+    <link href="favicon.ico?v=2" rel="icon" type="image/x-icon" />
+
     <title>{title}</title>
+
     <script is:inline>
       const setDarkMode = () => {
         const theme = localStorage.getItem("theme");
@@ -48,7 +52,7 @@ const { title } = Astro.props;
     <NavBar />
     <div class="pile h-full w-full">
       <div class="background relative bgi-[--bg-light] dark:bgi-[--bg-dark]" id="background"></div>
-      <div class="relative min-h-screen w-screen pb-[24px] pt-[--navbar-height]">
+      <div class="relative min-h-dvh w-screen pb-[24px] pt-[--navbar-height]">
         <slot />
       </div>
     </div>
@@ -62,6 +66,13 @@ const { title } = Astro.props;
         --bg-dark: url("/background/dark.webp");
         --bg-timing: linear;
         --bg-duration: 1.5s;
+        --mobile-theme: #8feffc;
+      }
+
+      .dark {
+        :root {
+          --mobile-theme: #43177b;
+        }
       }
 
       dialog {
