@@ -56,15 +56,6 @@ export default {
         "3xl": "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
       },
       keyframes: {
-        bgWave: {
-          "0%": { backgroundPosition: "50% 50%" },
-          "16%": { backgroundPosition: "55% 55%" },
-          "32%": { backgroundPosition: "55% 45%" },
-          "50%": { backgroundPosition: "50% 50%" },
-          "66%": { backgroundPosition: "45% 55%" },
-          "82%": { backgroundPosition: "45% 45%" },
-          "100%": { backgroundPosition: "50% 50%" },
-        },
         wiggle: {
           "0%": { rotate: "0deg" },
           "25%": { rotate: "-30deg" },
@@ -72,50 +63,39 @@ export default {
           "75%": { rotate: "-30deg" },
           "100%": { rotate: "0deg" },
         },
-        fadeIn: {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
         },
-        fadeOut: {
-          "0%": { opacity: "1" },
-          "100%": { opacity: "0" },
+        "fade-out": {
+          from: { opacity: "1" },
+          to: { opacity: "0" },
         },
         grow: {
-          "0%": { transform: "scale(0)" },
-          "100%": { transform: "scale(1)" },
+          from: { transform: "scale(0)" },
+          to: { transform: "scale(1)" },
         },
         shrink: {
-          "0%": { transform: "scale(1)" },
-          "100%": { transform: "scale(0)" },
+          from: { transform: "scale(1)" },
+          to: { transform: "scale(0)" },
         },
         "slide-down-in": {
-          "0%": { transform: "translateY(-100%)" },
-          "100%": { transform: "translateY(0)" },
+          from: { transform: "translateY(-100%)" },
+          to: { transform: "translateY(0)" },
         },
         "slide-down-out": {
-          "0%": { transform: "translateY(0)" },
-          "100%": { transform: "translateY(100%)" },
-        },
-        "slide-up-in": {
-          "0%": { transform: "translateY(0)" },
-          "100%": { transform: "translateY(-100%)" },
-        },
-        "slide-up-out": {
-          "0%": { transform: "translateY(0)" },
-          "100%": { transform: "translateY(-100%)" },
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(100%)" },
         },
       },
       animation: {
         wiggle: "wiggle 1s ease-in-out",
-        fadeIn: "fadeIn 1s ease-in-out",
-        fadeOut: "fadeOut 1s ease-in-out forwards",
+        "fade-in": "fade-in 1s ease-in-out",
+        "fade-out": "fade-out 1s ease-in-out forwards",
         grow: "grow 0.5s ease-in-out",
         shrink: "shrink 0.5s ease-in-out",
         "slide-down-in": "slide-down-in 0.5s ease-in-out",
         "slide-down-out": "slide-down-out 0.5s ease-in-out forwards",
-        "slide-up-in": "slide-up-in 0.5s ease-in-out",
-        "slide-up-out": "slide-up-out 0.5s ease-in-out forwards",
-        bgWave: "bgWave 10s infinite linear",
       },
     },
   },

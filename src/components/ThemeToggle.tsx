@@ -4,8 +4,8 @@ import { BsFillMoonStarsFill as Moon } from "react-icons/bs";
 
 type Theme = "light" | "dark";
 
-const animateIn = "animate-[slide-down-in_0.5s_ease,fadeIn_0.5s_ease]";
-const animateOut = "animate-[slide-down-out_0.5s_ease,fadeOut_0.5s_ease_forwards]";
+const animateIn = "animate-[slide-down-in_0.5s_ease,fade-in_0.5s_ease]";
+const animateOut = "animate-[slide-down-out_0.5s_ease,fade-out_0.5s_ease_forwards]";
 
 export const ThemeToggle = () => {
   const buttonRef = useRef<HTMLButtonElement>(null);
