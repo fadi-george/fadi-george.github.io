@@ -10,13 +10,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.7.0",
-    "@astrojs/react": "^3.4.0",
-    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/react": "^4.1.2",
+    "@astrojs/tailwind": "^5.1.4",
     "@fontsource/poppins": "^5.0.14",
     "@types/dom-view-transitions": "^1.0.4",
     "@types/react-dom": "^18.3.0",
-    "astro": "^4.9.2",
+    "astro": "^5.1.1",
     "daisyui": "^4.12.2",
     "framer-motion": "^11.2.10",
     "react": "^18.3.1",
